@@ -1,18 +1,14 @@
 import 'package:auto_route/auto_route_annotations.dart';
-import 'package:livescoreapp/details//live_detail.dart';
+import 'package:livescoreapp/pages/details/live_detail.dart';
+import 'package:livescoreapp/pages/soccer_app/soccer_app.dart';
 
-import '../main.dart';
 
 @MaterialAutoRouter(
   generateNavigationHelperExtension: true,
   routes: <AutoRoute>[
     // initial route is named "/"
     MaterialRoute(page: SoccerApp, initial: true),
-    MaterialRoute(page: LiveDetailPage),//, ..config),
+    MaterialRoute(page: LiveDetailsPage), //, ..config),
   ],
 )
-
-class $Router { 
-
-
-}
+class $Router {}

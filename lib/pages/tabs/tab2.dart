@@ -1,25 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:livescoreapp/Models/live_model.dart';
-import 'package:livescoreapp/details/live_detail.dart';
+import 'package:livescoreapp/Models/pastMatches_model.dart';
 
 import 'package:livescoreapp/manager/api_manager.dart';
 
-class Tab1Page extends StatefulWidget {
+class Tab2Page extends StatefulWidget {
   @override
-  _Tab1PageState createState() => _Tab1PageState();
+  _Tab2PageState createState() => _Tab2PageState();
 }
 
-class _Tab1PageState extends State<Tab1Page> {
- 
-
-
- Future<LiveModel> liveModels;
-
-  //var live;
+class _Tab2PageState extends State<Tab2Page> {
+  Future<PastMatchesModel> _pastMatchesModel;
 
   @override
   void initState() {
-    liveModels = Api_Manager().getLive() ;
+    _pastMatchesModel = Api_Manager().getPastMatches();
 
     super.initState();
   }
@@ -27,39 +21,48 @@ class _Tab1PageState extends State<Tab1Page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black12,
+      backgroundColor: Colors.black12, //[700],
+      // appBar: AppBar(
+      //   title: Text('Livescore'),
+      //   backgroundColor: Colors.blue[900],
+      // ),
+
       body: Container(
-        child: FutureBuilder<LiveModel>(
-          future: liveModels,
-          builder: (context, AsyncSnapshot<LiveModel> snapshot) {
+        child: FutureBuilder<PastMatchesModel>(
+          future: _pastMatchesModel,
+          builder: (context, snapshot) {
             if (snapshot.hasData) {
               return ListView.builder(
+                  //itemCount: widget.livemodels.length,
+                  //.data.data.match.length,
                   itemCount: snapshot.data.data.match.length,
+                  //itemCount: snapshot.data.data.goalscorers.length,
                   itemBuilder: (context, index) {
-                    //length: game.
-                    var game = snapshot.data.data.match[index];
-                    var hometeam = game.homeName;
-                    var awayteam = game.awayName;
-                    var score = game.score;
-                    var time = game.time;
-                    var ht = game.htScore;
-                    var startAt = game.scheduled;
-                    var status = game.status;
-                    if (status == "NOT STARTED") status = "$time";
-                    if (status == "NOT STARTED") ht = "";
+                    var pastMatch = snapshot.data.data.match[index];
 
+                    var hometeam = pastMatch.homeName;
+                    var awayteam = pastMatch.awayName;
+                    var ft = pastMatch.score;
+                    var ht = pastMatch.htScore;
+                    // var status = pastMatch.status;
+                    var time = pastMatch.time;
+                    var scheduled = pastMatch.scheduled;
+
+                    //var ;
+
+                    if (scheduled == null) scheduled = "";
+                    // if (time ==  Time.FT) time = '$ft';
                     return Container(
-                      // child: GestureDetector(
+                        child: GestureDetector(
                       // onTap: () {
-                      //   Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => LiveDetailPage(
-                      //       live: live[index]
-                      //       ),
-                      //   ),
-                      // );
-                      //},
+                      //       Navigator.push(
+                      //             context,
+                      //             MaterialPageRoute(
+                      //               builder: (context) => LiveDetailsPage(
+                      //               liveModel: liveModels[index]                                                       )
+                      //                ),
+                      //               );
+                      //          },
 
                       child: Card(
                           color: Colors.black12,
@@ -67,23 +70,18 @@ class _Tab1PageState extends State<Tab1Page> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
-                              Divider(
-                                color: Colors.blueGrey,
-                              ), //
-
                               Text(
-                                "  ht \n" + '$ht',
-                                textAlign: TextAlign.start,
+                                '''$scheduled \n HT \n $ht''', //$status
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: 9.0,
+                                  fontSize: 11.0,
                                 ),
                               ),
 
                               Expanded(
                                 child: Text(
-                                  //'$hometeam ',
-                                  game.homeName,
+                                  '$hometeam ',
                                   textAlign: TextAlign.right,
                                   style: TextStyle(
                                     color: Colors.orange,
@@ -95,11 +93,11 @@ class _Tab1PageState extends State<Tab1Page> {
                               Expanded(
                                   child: Center(
                                 child: Text(
-                                  '''$time \n $score \n''', //$status
+                                  '''FT \n $ft \n''', //$status
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     color: Colors.green,
-                                    fontSize: 14.0,
+                                    fontSize: 11.0,
                                   ),
                                 ),
                               )),
@@ -116,16 +114,20 @@ class _Tab1PageState extends State<Tab1Page> {
                               ),
 
                               Text(
-                                '$startAt',
-                                textAlign: TextAlign.start,
+                                '$time', //$status
+                                textAlign: TextAlign.center,
                                 style: TextStyle(
                                   color: Colors.green,
-                                  fontSize: 9.0,
+                                  fontSize: 10.0,
                                 ),
                               ),
+
+                              Divider(
+                                color: Colors.white,
+                              ), //
                             ],
                           )),
-                     ); //));
+                    ));
                   });
             } else
               return Center(child: CircularProgressIndicator());
@@ -135,3 +137,4 @@ class _Tab1PageState extends State<Tab1Page> {
     );
   }
 }
+//}

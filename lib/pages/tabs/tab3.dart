@@ -2,28 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:livescoreapp/Models/fixture_model.dart';
 import 'package:livescoreapp/manager/api_manager.dart';
 
-
-
-
-
 class Tab3Page extends StatefulWidget {
-
-
-
-
   @override
   _Tab3PageState createState() => _Tab3PageState();
 }
 
 class _Tab3PageState extends State<Tab3Page> {
- 
-
-
- Future<FixtureModel> _fixtureModel;
-
- 
-
-  
+  Future<FixtureModel> _fixtureModel;
 
   @override
   void initState() {
@@ -32,32 +17,21 @@ class _Tab3PageState extends State<Tab3Page> {
     super.initState();
   }
 
-
-
-    @override
+  @override
   Widget build(BuildContext context) {
-     return Scaffold(
-       backgroundColor: Colors.black12,//[700],
-     
-     
+    return Scaffold(
+      backgroundColor: Colors.black12, //[700],
+
       body: Container(
-
-       
-
-        child: FutureBuilder <FixtureModel> (
-               
+        child: FutureBuilder<FixtureModel>(
           future: _fixtureModel,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
-             
               return ListView.builder(
                   // itemCount: liveModels.length,
-                   //.data.data.match.length,
+                  //.data.data.match.length,
                   itemCount: snapshot.data.data.match.length,
                   itemBuilder: (context, index) {
-
-                      
-
                     var game = snapshot.data.data.match[index];
                     var hometeam = game.homeName;
                     var awayteam = game.awayName;
@@ -65,125 +39,92 @@ class _Tab3PageState extends State<Tab3Page> {
                     // var time =   game.time;
                     // var ht = game.htScore;
 
-              return  Container(
-                
-                 child : GestureDetector(
-                    
-                  // onTap: () {
-                  //       Navigator.push(
-                  //             context,
-                  //             MaterialPageRoute(
-                  //               builder: (context) => LiveDetailsPage(
-                  //               liveModel: liveModels[index]                                                       )
-                  //                ),
-                  //               );
-                  //          }, 
+                    return Container(
+                        child: GestureDetector(
+                      // onTap: () {
+                      //       Navigator.push(
+                      //             context,
+                      //             MaterialPageRoute(
+                      //               builder: (context) => LiveDetailsPage(
+                      //               liveModel: liveModels[index]                                                       )
+                      //                ),
+                      //               );
+                      //          },
 
+                      child: Card(
+                          color: Colors.black12,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Divider(
+                                color: Colors.blueGrey,
+                              ), //
 
-                    child:  Card (
-                color: Colors.black12,  
-                       child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
+                              // Expanded(
+                              //        child: Center(
+                              //          child: Text(
+                              //          '''$ht''',
+                              //          textAlign: TextAlign.justify,
+                              //          style: TextStyle(
+                              //           color: Colors.green,
+                              //           fontSize: 18.0,
+                              //              ),
+                              //             ),
+                              //           )
+                              //         ),
 
-                Divider(
-                color: Colors.blueGrey,
-                ), //     
-              
-          // Expanded(
-          //        child: Center(      
-          //          child: Text(
-          //          '''$ht''',
-          //          textAlign: TextAlign.justify,
-          //          style: TextStyle(
-          //           color: Colors.green,
-          //           fontSize: 18.0,
-          //              ),
-          //             ),
-          //           )
-          //         ),
+                              Expanded(
+                                child: Text(
+                                  '$hometeam ',
+                                  textAlign: TextAlign.right,
+                                  style: TextStyle(
+                                    color: Colors.orange,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                              ),
 
+                              // Expanded(
+                              //   child: Center(
+                              //      child: Text(
+                              //       '''$time \n $score''',
+                              //     textAlign: TextAlign.center,
+                              //     style: TextStyle(
+                              //       color: Colors.green,
+                              //       fontSize: 18.0,
+                              //          ),
+                              //        ),
+                              //       )
+                              //     ),
 
+                              Expanded(
+                                child: Text(
+                                  '$awayteam',
+                                  textAlign: TextAlign.left,
+                                  style: TextStyle(
+                                    color: Colors.orange,
+                                    fontSize: 14.0,
+                                  ),
+                                ),
+                              ),
 
-        Expanded(
-          child: Text(
-               '$hometeam ',    
-            textAlign: TextAlign.right,
-            style: TextStyle(
-          
-              color: Colors.orange,
-              fontSize: 14.0,
-            ),
-          ),
-        ),
-
-        // Expanded(
-        //   child: Center(      
-        //      child: Text(
-        //       '''$time \n $score''',
-        //     textAlign: TextAlign.center,
-        //     style: TextStyle(
-        //       color: Colors.green,
-        //       fontSize: 18.0,
-        //          ),
-        //        ),
-        //       )
-        //     ),
-
-
-              
-               
-        Expanded(
-          child: Text(
-            '$awayteam',
-           
-               textAlign: TextAlign.left,
-               style: TextStyle(
-               color: Colors.orange,
-                fontSize: 14.0,
-                   ),
-                 ),
-               ),
-                             
-                 // Tab2Page()
-                           ],
-         
-                           )),
-                         
-                            )
-
-                              
-                           );
-                 
-             } );
+                              // Tab2Page()
+                            ],
+                          )),
+                    ));
+                  });
             } else
-              return Center(child: CircularProgressIndicator(
-                  
-                )
-               );
+              return Center(child: CircularProgressIndicator());
           },
         ),
-       
       ),
     );
   }
 }
 
-
-
-
-
-
-
-
-
-
-
 // // // import 'package:flutter/foundation.dart';
 // // // import 'package:flutter/material.dart';
-
-
 
 // class Todo {
 //   final String title;

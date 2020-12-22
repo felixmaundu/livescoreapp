@@ -9,16 +9,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
-import '../Models/live_model.dart';
-import '../details/live_detail.dart';
-import '../main.dart';
+import '../new_models/match_model.dart';
+import '../pages/details/live_detail.dart';
+import '../pages/soccer_app/soccer_app.dart';
 
 class Routes {
   static const String soccerApp = '/';
-  static const String liveDetailPage = '/live-detail-page';
+  static const String liveDetailsPage = '/live-details-page';
   static const all = <String>{
     soccerApp,
-    liveDetailPage,
+    liveDetailsPage,
   };
 }
 
@@ -27,7 +27,7 @@ class Router extends RouterBase {
   List<RouteDef> get routes => _routes;
   final _routes = <RouteDef>[
     RouteDef(Routes.soccerApp, page: SoccerApp),
-    RouteDef(Routes.liveDetailPage, page: LiveDetailPage),
+    RouteDef(Routes.liveDetailsPage, page: LiveDetailsPage),
   ];
   @override
   Map<Type, AutoRouteFactory> get pagesMap => _pagesMap;
@@ -38,12 +38,10 @@ class Router extends RouterBase {
         settings: data,
       );
     },
-    LiveDetailPage: (data) {
-      final args = data.getArgs<LiveDetailPageArguments>(
-        orElse: () => LiveDetailPageArguments(),
-      );
+    LiveDetailsPage: (data) {
+      final args = data.getArgs<LiveDetailsPageArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => LiveDetailPage(
+        builder: (context) => LiveDetailsPage(
           key: args.key,
           live: args.live,
         ),
@@ -60,13 +58,13 @@ class Router extends RouterBase {
 extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
   Future<dynamic> pushSoccerApp() => push<dynamic>(Routes.soccerApp);
 
-  Future<dynamic> pushLiveDetailPage({
+  Future<dynamic> pushLiveDetailsPage({
     Key key,
-    LiveModel live,
+    @required MatchModel live,
   }) =>
       push<dynamic>(
-        Routes.liveDetailPage,
-        arguments: LiveDetailPageArguments(key: key, live: live),
+        Routes.liveDetailsPage,
+        arguments: LiveDetailsPageArguments(key: key, live: live),
       );
 }
 
@@ -74,9 +72,9 @@ extension RouterExtendedNavigatorStateX on ExtendedNavigatorState {
 /// Arguments holder classes
 /// *************************************************************************
 
-/// LiveDetailPage arguments holder class
-class LiveDetailPageArguments {
+/// LiveDetailsPage arguments holder class
+class LiveDetailsPageArguments {
   final Key key;
-  final LiveModel live;
-  LiveDetailPageArguments({this.key, this.live});
+  final MatchModel live;
+  LiveDetailsPageArguments({this.key, @required this.live});
 }
